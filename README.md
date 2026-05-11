@@ -16,3 +16,4 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 Lucas Gravatá | Telas e Funcionalidades de Gerenciamento de Medicamentos.
+Carlos Eduardo Lima Santos | Telas e Funcionalidedas de Agenda Medica.
