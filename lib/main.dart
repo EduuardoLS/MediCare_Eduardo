@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/cadastro_screen.dart';
 
 void main() {
   runApp(const MedicareApp());
@@ -128,7 +129,12 @@ class LoginScreen extends StatelessWidget {
                       _buildButton(
                         label: 'CADASTRAR',
                         onPressed: () {
-                          // Ação do botão Cadastrar
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CadastroScreen(),
+                            )
+                          );
                         },
                       ),
                     ],
