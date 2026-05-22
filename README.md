@@ -14,3 +14,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+Lucas Gravatá | Telas e Funcionalidades de Gerenciamento de Medicamentos.<br>
+Carlos Eduardo Lima Santos | Telas e Funcionalidedas de Agenda Medica.<br>
+Enzo Gabriel de Araújo Soares | Tela de cadastro.<br>
+Lucca Derlan Barreto Costa | Tela de Login.<br>
+Davi Gabriel dos Santos Mota | Tela buscar.
