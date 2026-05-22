@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicare/medicamentos.dart';
 import 'screens/cadastro_screen.dart';
 
 void main() {
@@ -11,6 +12,12 @@ class MedicareApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: GerenciarMedicamentosPage(),
+    );
+  }
+}
+
       title: 'Medicare',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
