@@ -155,4 +155,3 @@ assets:
 ```
 
 **App não encontra a imagem em runtime** Confirme que o arquivo está em `assets/images/` e que o `pubspec.yaml` foi salvo antes de rodar `flutter pub get`.
-
