@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/temas/cores_app.dart';
 
 class MedicamentoCard extends StatelessWidget {
   final Color corLateral;
@@ -25,96 +26,109 @@ class MedicamentoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
-      margin: const EdgeInsets.symmetric(horizontal: 14),
+      height: 175,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black12),
+        color: CoresApp.branco,
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.10),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            width: 8,
+            width: 38,
             decoration: BoxDecoration(
               color: corLateral,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
               ),
             ),
           ),
+
+          // Conteúdo
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.only(left: 14, top: 10, right: 8, bottom: 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'MÉDICO(A): $medico',
-                              style: const TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              '$especialidade | $crm',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.black54,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
+                        child: Text(
+                          'MÉDICO(A): $medico',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            letterSpacing: 0.7,
+                            color: CoresApp.textoForte,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      const Icon(Icons.notifications_none, size: 22, color: Colors.orange),
+                      const Icon(Icons.notifications_none, size: 22, color: CoresApp.textoForte),
                     ],
                   ),
-                  const Spacer(),
+
+                  const SizedBox(height: 8),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        'MEDICAMENTO: $medicamento',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                      Text(especialidade,
+                          style: const TextStyle(fontSize: 10, letterSpacing: 0.8, color: CoresApp.textoSecundario)),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(crm,
+                            style: const TextStyle(fontSize: 10, letterSpacing: 0.8, color: CoresApp.textoSecundario)),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  if (receita.isNotEmpty)
+                    Text(
+                      'RECEITA: $receita',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        height: 1.3,
+                        letterSpacing: 0.5,
+                        color: CoresApp.textoSecundario,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+
+                  const Spacer(),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'MEDICAMENTO: $medicamento',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            letterSpacing: 0.8,
+                            color: CoresApp.textoForte,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: onEditar,
-                            child: const Icon(Icons.edit, size: 20, color: Colors.black87),
-                          ),
-                          const SizedBox(width: 16),
-                          GestureDetector(
-                            onTap: onExcluir,
-                            child: const Icon(Icons.delete_outline, size: 22, color: Colors.black87),
-                          ),
-                        ],
+                      _BotaoAcaoCard(
+                        icon: Icons.edit,
+                        color: CoresApp.azulCard,
+                        onTap: onEditar,
+                      ),
+                      const SizedBox(width: 8),
+                      _BotaoAcaoCard(
+                        icon: Icons.delete_outline,
+                        color: Colors.red,
+                        onTap: onExcluir,
                       ),
                     ],
                   ),
@@ -123,6 +137,42 @@ class MedicamentoCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BotaoAcaoCard extends StatefulWidget {
+  final IconData icon;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _BotaoAcaoCard({required this.icon, required this.color, required this.onTap});
+
+  @override
+  State<_BotaoAcaoCard> createState() => _BotaoAcaoCardState();
+}
+
+class _BotaoAcaoCardState extends State<_BotaoAcaoCard> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: _hovering ? widget.color.withOpacity(0.12) : Colors.transparent,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Icon(widget.icon, size: 20, color: widget.color),
+        ),
       ),
     );
   }

@@ -6,61 +6,80 @@ class BannerDestaque extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 190,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         image: const DecorationImage(
-          image: AssetImage('assets/images/banner_fundo.png'), // Imagem de fundo
+          image: AssetImage('assets/images/banner_fundo.png'),
           fit: BoxFit.cover,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Stack(
         children: [
-          // Imagem sobreposta (ex: médico ou paciente vazado em PNG)
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: Image.asset(
-              'assets/images/banner_frente.png', 
-              height: 180, // Ajuste a altura conforme sua imagem real
-              fit: BoxFit.contain,
-            ),
-          ),
-          // Gradiente sutil para dar contraste ao texto
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(18),
               gradient: LinearGradient(
-                begin: Alignment.centerRight,
-                end: Alignment.centerLeft,
-                colors: [Colors.black.withOpacity(0.6), Colors.transparent],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withOpacity(0.65),
+                ],
               ),
             ),
           ),
-          // Textos
+
+          Positioned(
+            left: 0,
+            bottom: 0,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(18),
+                topLeft: Radius.circular(18),
+              ),
+              child: Image.asset(
+                'assets/images/banner_frente.png',
+                height: 185,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+
           const Positioned(
-            right: 15,
-            top: 40,
+            right: 16,
+            top: 0,
+            bottom: 0,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   'SAÚDE NO CONFORTO\nDO NOSSO LAR',
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                    color: Colors.white, 
-                    fontSize: 18, 
+                    color: Colors.white,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    height: 1.4,
+                    letterSpacing: 0.5,
                   ),
                 ),
                 SizedBox(height: 10),
                 Text(
                   'MEDICARE',
                   style: TextStyle(
-                    color: Colors.white70, 
-                    fontSize: 12, 
-                    letterSpacing: 2,
+                    color: Colors.white60,
+                    fontSize: 11,
+                    letterSpacing: 3,
                   ),
                 ),
               ],

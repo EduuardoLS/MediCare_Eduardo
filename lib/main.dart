@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-// Certifique-se de que o caminho do import está correto de acordo com a sua estrutura
-import 'features/home/apresentacao/paginas/tela_inicial.dart'; 
+import 'features/auth/apresentacao/paginas/tela_login.dart';
 
 void main() {
-  runApp(const MeuAplicativo());
+  runApp(const MedicareApp());
 }
 
-class MeuAplicativo extends StatelessWidget {
-  const MeuAplicativo({super.key});
+class MedicareApp extends StatelessWidget {
+  const MedicareApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +14,11 @@ class MeuAplicativo extends StatelessWidget {
       title: 'Medicare',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
         useMaterial3: true,
+        fontFamily: 'Serif',
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
       ),
-      // Aqui nós definimos a nova tela inicial como a primeira tela do app
-      home: const TelaInicial(),
+      home: const TelaLogin(),
     );
   }
 }

@@ -12,11 +12,11 @@ class AdicionarMedicamentoPage extends StatefulWidget {
 }
 
 class _AdicionarMedicamentoPageState extends State<AdicionarMedicamentoPage> {
-  final TextEditingController medicoController = TextEditingController();
-  final TextEditingController especialidadeController = TextEditingController();
-  final TextEditingController crmController = TextEditingController();
-  final TextEditingController receitaController = TextEditingController();
-  final TextEditingController medicamentoController = TextEditingController();
+  final medicoController       = TextEditingController();
+  final especialidadeController = TextEditingController();
+  final crmController          = TextEditingController();
+  final receitaController      = TextEditingController();
+  final medicamentoController  = TextEditingController();
 
   Color corSelecionada = const Color(0xFF08C98E);
 
@@ -25,12 +25,12 @@ class _AdicionarMedicamentoPageState extends State<AdicionarMedicamentoPage> {
     super.initState();
     if (widget.medicamentoExistente != null) {
       final item = widget.medicamentoExistente!;
-      medicoController.text = item.medico;
+      medicoController.text       = item.medico;
       especialidadeController.text = item.especialidade;
-      crmController.text = item.crm;
-      receitaController.text = item.receita;
-      medicamentoController.text = item.medicamento;
-      corSelecionada = item.corLateral;
+      crmController.text          = item.crm;
+      receitaController.text      = item.receita;
+      medicamentoController.text  = item.medicamento;
+      corSelecionada              = item.corLateral;
     }
   }
 
@@ -38,24 +38,23 @@ class _AdicionarMedicamentoPageState extends State<AdicionarMedicamentoPage> {
     if (medicoController.text.isEmpty ||
         especialidadeController.text.isEmpty ||
         crmController.text.isEmpty ||
-        receitaController.text.isEmpty ||
         medicamentoController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Preencha todos os campos')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Preencha todos os campos obrigatórios')));
       return;
     }
 
-    final medicamentoSalvo = Medicamento(
-      corLateral: corSelecionada,
-      medico: medicoController.text.toUpperCase(),
-      especialidade: especialidadeController.text.toUpperCase(),
-      crm: crmController.text.toUpperCase(),
-      receita: receitaController.text.toUpperCase(),
-      medicamento: medicamentoController.text.toUpperCase(),
+    Navigator.pop(
+      context,
+      Medicamento(
+        corLateral:    corSelecionada,
+        medico:        medicoController.text,
+        especialidade: especialidadeController.text,
+        crm:           crmController.text,
+        receita:       receitaController.text,
+        medicamento:   medicamentoController.text,
+      ),
     );
-
-    Navigator.pop(context, medicamentoSalvo);
   }
 
   @override
@@ -73,60 +72,94 @@ class _AdicionarMedicamentoPageState extends State<AdicionarMedicamentoPage> {
     final bool editando = widget.medicamentoExistente != null;
 
     return Scaffold(
-      backgroundColor: CoresApp.fundoCreme,
-      appBar: AppBar(
-        title: Text(
-          editando ? 'EDITAR MEDICAMENTO' : 'ADICIONAR MEDICAMENTO',
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: CoresApp.branco),
-        ),
-        backgroundColor: CoresApp.cianoPrincipal,
-        foregroundColor: CoresApp.branco,
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            _campoTexto(controller: medicoController, label: 'NOME DO MÉDICO'),
-            const SizedBox(height: 14),
-            _campoTexto(controller: especialidadeController, label: 'ESPECIALIDADE'),
-            const SizedBox(height: 14),
-            _campoTexto(controller: crmController, label: 'CRM / RQE'),
-            const SizedBox(height: 14),
-            _campoTexto(controller: medicamentoController, label: 'NOME DO MEDICAMENTO'),
-            const SizedBox(height: 14),
-            _campoTexto(controller: receitaController, label: 'RECEITA MÉDICA', maxLines: 5),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Text('COR LATERAL:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: CoresApp.textoForte)),
-                const SizedBox(width: 14),
-                _botaoCor(const Color(0xFF08C98E)),
-                _botaoCor(const Color(0xFFC92323)),
-                _botaoCor(Colors.blue),
-                _botaoCor(Colors.orange),
-              ],
-            ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: salvarMedicamento,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CoresApp.azulCard,
-                  foregroundColor: CoresApp.branco,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                child: Text(
-                  editando ? 'SALVAR ALTERAÇÕES' : 'SALVAR MEDICAMENTO',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      body: Container(
+        decoration: const BoxDecoration(gradient: CoresApp.gradienteBackground),
+        child: SafeArea(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: const Icon(Icons.arrow_back_ios, color: CoresApp.textoForte, size: 22),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: CoresApp.fundoCreme,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Text(
+                        editando ? 'EDITAR MEDICAMENTO' : 'ADICIONAR MEDICAMENTO',
+                        style: const TextStyle(fontSize: 13, letterSpacing: 1.2, color: CoresApp.textoForte),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+              // Formulário
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      _campoTexto(controller: medicoController, label: 'Nome do médico'),
+                      const SizedBox(height: 12),
+                      _campoTexto(controller: especialidadeController, label: 'Especialidade'),
+                      const SizedBox(height: 12),
+                      _campoTexto(controller: crmController, label: 'CRM / RQE'),
+                      const SizedBox(height: 12),
+                      _campoTexto(controller: medicamentoController, label: 'Nome do medicamento'),
+                      const SizedBox(height: 12),
+                      _campoTexto(controller: receitaController, label: 'Receita médica', maxLines: 4),
+                      const SizedBox(height: 20),
+
+                      Row(
+                        children: [
+                          const Text('Cor lateral:',
+                              style: TextStyle(fontSize: 15, color: CoresApp.textoForte)),
+                          const SizedBox(width: 14),
+                          ...[
+                            const Color(0xFF08C98E),
+                            const Color(0xFFC92323),
+                            CoresApp.azulCard,
+                            Colors.orange,
+                          ].map(_botaoCor),
+                        ],
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed: salvarMedicamento,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CoresApp.fundoCreme,
+                            foregroundColor: CoresApp.textoForte,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: Text(
+                            editando ? 'Salvar alterações' : 'Salvar medicamento',
+                            style: const TextStyle(fontSize: 16, letterSpacing: 1),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -136,23 +169,15 @@ class _AdicionarMedicamentoPageState extends State<AdicionarMedicamentoPage> {
     return TextField(
       controller: controller,
       maxLines: maxLines,
-      textCapitalization: TextCapitalization.characters,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: const TextStyle(color: CoresApp.textoSecundario, fontSize: 13, fontWeight: FontWeight.bold),
+        labelStyle: const TextStyle(color: CoresApp.textoSecundario, fontSize: 13),
         filled: true,
-        fillColor: CoresApp.branco,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide.none,
-        ),
+        fillColor: CoresApp.fundoCreme,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: CoresApp.cianoPrincipal, width: 2),
+          borderSide: BorderSide(color: CoresApp.azulCard, width: 1.5),
         ),
       ),
     );
@@ -163,15 +188,15 @@ class _AdicionarMedicamentoPageState extends State<AdicionarMedicamentoPage> {
     return GestureDetector(
       onTap: () => setState(() => corSelecionada = cor),
       child: Container(
-        margin: const EdgeInsets.only(right: 12),
-        width: 34,
-        height: 34,
+        margin: const EdgeInsets.only(right: 10),
+        width: 30,
+        height: 30,
         decoration: BoxDecoration(
           color: cor,
           shape: BoxShape.circle,
           border: Border.all(
             color: selecionada ? CoresApp.textoForte : Colors.transparent,
-            width: selecionada ? 3 : 1,
+            width: 3,
           ),
         ),
       ),

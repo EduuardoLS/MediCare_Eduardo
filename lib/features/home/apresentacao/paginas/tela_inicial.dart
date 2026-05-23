@@ -3,8 +3,6 @@ import '../../../../core/temas/cores_app.dart';
 import '../../../agenda/apresentacao/componentes/recortes_nuvem.dart';
 import '../../../agenda/apresentacao/paginas/tela_agenda_medica.dart';
 import '../../../medicamentos/apresentacao/paginas/tela_medicamentos.dart';
-
-// Importações dos componentes recém-criados
 import '../componentes/banner_destaque.dart';
 import '../componentes/botao_navegacao_home.dart';
 import '../componentes/cartao_horizontal.dart';
@@ -19,36 +17,41 @@ class TelaInicial extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: CoresApp.gradienteBackground,
         ),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: ClipPath(
-                clipper: RecorteNuvemInferior(),
-                child: Container(
-                  height: 100,
-                  color: CoresApp.branco,
+        child: SafeArea(
+          top: false,
+          bottom: false,
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                const BannerDestaque(),
+                const SizedBox(height: 8),
+                _buildNavegacaoPrincipal(context),
+                const SizedBox(height: 8),
+                _buildSecaoIlhaBranca(
+                  titulo: 'FAVORITOS',
+                  conteudo: _buildCardsHorizontais([
+                    const CartaoHorizontal(label: 'WEARBLE',    imgPath: 'assets/images/card_wearble.png'),
+                    const CartaoHorizontal(label: 'PRONTUÁRIO', imgPath: 'assets/images/card_prontuario.png'),
+                  ]),
                 ),
-              ),
-            ),
-            SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    const BannerDestaque(),
-                    _buildNavegacaoPrincipal(context),
-                    _buildSecaoFavoritos(),
-                    _buildSecaoFuncionalidades(),
-                    const SizedBox(height: 120),
-                  ],
+
+                const SizedBox(height: 8),
+
+                _buildSecaoIlhaBranca(
+                  titulo: 'FUNCIONALIDADES',
+                  conteudo: _buildCardsHorizontais([
+                    const CartaoHorizontal(label: 'AGENDAMENTO', imgPath: 'assets/images/card_agendamento.png'),
+                    const CartaoHorizontal(label: 'WEARBLE',     imgPath: 'assets/images/card_wearble.png'),
+                  ]),
                 ),
-              ),
+
+                const SizedBox(height: 40),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -59,13 +62,25 @@ class TelaInicial extends StatelessWidget {
       clipper: RecorteNuvemSuperior(),
       child: Container(
         height: 120,
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 35),
-        color: CoresApp.branco,
+        color: CoresApp.fundoCreme,
+        padding: const EdgeInsets.fromLTRB(20, 40, 20, 36),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/logo.png', height: 50),
-            const Spacer(),
-            const Icon(Icons.notification_add_outlined, size: 28, color: CoresApp.textoForte),
+            ClipOval(
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+              ),
+            ),
+            // Ícone notificação
+            _BotaoIconeHeader(
+              icon: Icons.notification_add_outlined,
+              onTap: () {},
+            ),
           ],
         ),
       ),
@@ -74,24 +89,30 @@ class TelaInicial extends StatelessWidget {
 
   Widget _buildNavegacaoPrincipal(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BotaoNavegacaoHome(
-            icon: Icons.assignment, 
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaAgendaMedica())),
+            icon: Icons.assignment,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const TelaAgendaMedica()),
+            ),
           ),
           BotaoNavegacaoHome(
-            icon: Icons.search, 
+            icon: Icons.search,
             onTap: () {},
           ),
           BotaoNavegacaoHome(
-            icon: Icons.medication, 
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const GerenciarMedicamentosPage())),
+            icon: Icons.medication_outlined,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const GerenciarMedicamentosPage()),
+            ),
           ),
           BotaoNavegacaoHome(
-            icon: Icons.add_box, 
+            icon: Icons.add_box_outlined,
             onTap: () {},
           ),
         ],
@@ -99,49 +120,104 @@ class TelaInicial extends StatelessWidget {
     );
   }
 
-  Widget _buildSecaoFavoritos() {
+  Widget _buildSecaoIlhaBranca({
+    required String titulo,
+    required Widget conteudo,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Text('FAVORITOS', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CoresApp.textoForte)),
+        // Borda superior ondulada (ciano aparece "por baixo" das ondas brancas)
+        ClipPath(
+          clipper: RecorteNuvemInferior(),
+          child: Container(
+            height: 50,
+            color: CoresApp.fundoCreme,
+          ),
         ),
-        SizedBox(
-          height: 140,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 20),
-            children: const [
-              CartaoHorizontal(label: 'PRONTUÁRIO', imgPath: 'assets/images/card_prontuario.png'),
-              // Adicione mais cartões se necessário
+
+        Container(
+          color: CoresApp.fundoCreme,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 12),
+                child: Text(
+                  titulo,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: CoresApp.textoForte,
+                    fontFamily: 'Serif',
+                  ),
+                ),
+              ),
+              conteudo,
+              const SizedBox(height: 16),
             ],
+          ),
+        ),
+
+        // Borda inferior ondulada
+        ClipPath(
+          clipper: RecorteNuvemSuperior(),
+          child: Container(
+            height: 50,
+            color: CoresApp.fundoCreme,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildSecaoFuncionalidades() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: Text('FUNCIONALIDADES', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CoresApp.textoForte)),
-        ),
-        SizedBox(
-          height: 140,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 20),
-            children: const [
-              CartaoHorizontal(label: 'AGENDAMENTO', imgPath: 'assets/images/card_agendamento.png'),
-              CartaoHorizontal(label: 'CONSULTAS', imgPath: 'assets/images/card_consultas.png'), // Exemplo de um novo cartão
-            ],
+  Widget _buildCardsHorizontais(List<Widget> cards) {
+    return SizedBox(
+      height: 140,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.only(left: 20, right: 6),
+        children: cards,
+      ),
+    );
+  }
+}
+
+class _BotaoIconeHeader extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _BotaoIconeHeader({required this.icon, required this.onTap});
+
+  @override
+  State<_BotaoIconeHeader> createState() => _BotaoIconeHeaderState();
+}
+
+class _BotaoIconeHeaderState extends State<_BotaoIconeHeader> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: _hovering ? Colors.black.withOpacity(0.07) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            widget.icon,
+            color: _hovering ? CoresApp.azulCard : CoresApp.textoForte,
+            size: 28,
           ),
         ),
-      ],
+      ),
     );
   }
 }
