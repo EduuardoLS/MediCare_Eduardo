@@ -17,23 +17,21 @@ class _TelaBuscarState extends State<TelaBuscar> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: _buildDrawer(),
-      // O Scaffold fica transparente para mostrar o gradiente do Container
       backgroundColor: Colors.transparent,
       body: Container(
         decoration: const BoxDecoration(
           gradient: CoresApp.gradienteBackground,
         ),
         child: SafeArea(
-          bottom: false, // Permite que a nuvem do rodapé encoste no fundo da tela
+          bottom: false,
           child: Stack(
             children: [
-              // CONTEÚDO PRINCIPAL (Header + Scroll)
               Column(
                 children: [
                   _buildHeaderNuvem(),
                   Expanded(
                     child: ListView(
-                      padding: const EdgeInsets.only(bottom: 100), // Espaço para a nuvem do rodapé
+                      padding: const EdgeInsets.only(bottom: 100),
                       children: [
                         _buildBotoesEAbas(),
                         const SizedBox(height: 24),
@@ -48,7 +46,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
                 ],
               ),
 
-              // NUVEM DO RODAPÉ
               Positioned(
                 bottom: 0,
                 left: 0,
@@ -68,15 +65,13 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // HEADER BRANCO COM ONDAS
   Widget _buildHeaderNuvem() {
     return ClipPath(
       clipper: RecorteNuvemSuperior(),
       child: Container(
-        height: 120, // Altura ajustada para o logo e as ondas
+        height: 120,
         width: double.infinity,
         color: CoresApp.nuvemBranco,
-        // O padding inferior (35) garante que o conteúdo fique acima das ondas
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 35),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +117,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // SETA DE VOLTAR E ABAS
   Widget _buildBotoesEAbas() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +137,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // MENU DRAWER LATERAL
   Widget _buildDrawer() {
     return Drawer(
       backgroundColor: CoresApp.nuvemBranco,
@@ -177,14 +170,12 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // WIDGET DAS ABAS (Retas iguais à imagem)
   Widget _buildAbaWidget({required String texto, required bool ativo}) {
     return Expanded(
       child: Container(
         height: 55,
         decoration: BoxDecoration(
           color: ativo ? const Color(0xFF008D95) : CoresApp.cianoClaro,
-          // Removido o borderRadius para ficar reto, de ponta a ponta
           boxShadow: const [
             BoxShadow(
               color: Colors.black12,
@@ -209,7 +200,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // BARRA DE PESQUISA
   Widget _buildSearchBar() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -262,7 +252,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // WIDGET DOS FILTROS ("DOR", "VITAMINA"...)
   Widget _buildFiltros() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -290,7 +279,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white, // No design todos são brancos
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: ativo ? Border.all(color: const Color(0xFF008D95), width: 1.5) : null,
           boxShadow: const [
@@ -312,7 +301,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // LISTA DE MEDICAMENTOS
   Widget _buildListaMedicamentos() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -338,7 +326,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
-  // CARD DE MEDICAMENTO COM O ÍCONE DE SINO
   Widget _buildRemedioCard({
     required String nome,
     required String horario,
@@ -355,7 +342,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 18),
-        height: 125, // Altura mais proporcional ao design
+        height: 125,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -401,7 +388,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
                             ),
                           ),
                         ),
-                        // Ícone substituído para o SINO conforme a imagem!
                         Icon(
                           ativo ? Icons.notifications_active : Icons.notifications_none,
                           size: 28,
@@ -441,8 +427,6 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 }
-
-// BOTÃO DE VOLTAR COM HOVER
 class _BotaoVoltarHover extends StatefulWidget {
   final VoidCallback onTap;
 
