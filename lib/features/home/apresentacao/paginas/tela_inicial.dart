@@ -3,6 +3,7 @@ import '../../../../core/temas/cores_app.dart';
 import '../../../agenda/apresentacao/componentes/recortes_nuvem.dart';
 import '../../../agenda/apresentacao/paginas/tela_agenda_medica.dart';
 import '../../../medicamentos/apresentacao/paginas/tela_medicamentos.dart';
+import '../../../buscar/apresentacao/paginas/tela_buscar.dart';
 import '../componentes/banner_destaque.dart';
 import '../componentes/botao_navegacao_home.dart';
 import '../componentes/cartao_horizontal.dart';
@@ -37,9 +38,7 @@ class TelaInicial extends StatelessWidget {
                     const CartaoHorizontal(label: 'PRONTUÁRIO', imgPath: 'assets/images/card_prontuario.png'),
                   ]),
                 ),
-
                 const SizedBox(height: 8),
-
                 _buildSecaoIlhaBranca(
                   titulo: 'FUNCIONALIDADES',
                   conteudo: _buildCardsHorizontais([
@@ -47,7 +46,6 @@ class TelaInicial extends StatelessWidget {
                     const CartaoHorizontal(label: 'WEARBLE',     imgPath: 'assets/images/card_wearble.png'),
                   ]),
                 ),
-
                 const SizedBox(height: 40),
               ],
             ),
@@ -76,7 +74,6 @@ class TelaInicial extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            // Ícone notificação
             _BotaoIconeHeader(
               icon: Icons.notification_add_outlined,
               onTap: () {},
@@ -102,7 +99,11 @@ class TelaInicial extends StatelessWidget {
           ),
           BotaoNavegacaoHome(
             icon: Icons.search,
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              // CORREÇÃO: "TelaBuscar" com 'T' maiúsculo
+              MaterialPageRoute(builder: (_) => const TelaBuscar()), 
+            ),
           ),
           BotaoNavegacaoHome(
             icon: Icons.medication_outlined,
@@ -127,7 +128,6 @@ class TelaInicial extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Borda superior ondulada (ciano aparece "por baixo" das ondas brancas)
         ClipPath(
           clipper: RecorteNuvemInferior(),
           child: Container(
@@ -135,7 +135,6 @@ class TelaInicial extends StatelessWidget {
             color: CoresApp.fundoCreme,
           ),
         ),
-
         Container(
           color: CoresApp.fundoCreme,
           child: Column(
@@ -158,8 +157,6 @@ class TelaInicial extends StatelessWidget {
             ],
           ),
         ),
-
-        // Borda inferior ondulada
         ClipPath(
           clipper: RecorteNuvemSuperior(),
           child: Container(
