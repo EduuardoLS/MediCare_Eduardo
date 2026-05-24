@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../../../../core/temas/cores_app.dart';
 import '../../../agenda/apresentacao/componentes/recortes_nuvem.dart';
 import '../../../agenda/apresentacao/paginas/tela_agenda_medica.dart';
@@ -33,17 +34,19 @@ class TelaInicial extends StatelessWidget {
                 const SizedBox(height: 8),
                 _buildSecaoIlhaBranca(
                   titulo: 'FAVORITOS',
-                  conteudo: _buildCardsHorizontais([
-                    const CartaoHorizontal(label: 'WEARBLE',    imgPath: 'assets/images/card_wearble.png'),
-                    const CartaoHorizontal(label: 'PRONTUÁRIO', imgPath: 'assets/images/card_prontuario.png'),
+                  conteudo: _buildCardsHorizontais(const [
+                    CartaoHorizontal(label: 'WEARBLE', imgPath: 'assets/images/card_wearble.png'),
+                    CartaoHorizontal(label: 'PRONTUÁRIO', imgPath: 'assets/images/card_prontuario.png'),
+                    CartaoHorizontal(label: 'REMÉDIOS', imgPath: 'assets/images/card_remedios.png'),
                   ]),
                 ),
                 const SizedBox(height: 8),
                 _buildSecaoIlhaBranca(
                   titulo: 'FUNCIONALIDADES',
-                  conteudo: _buildCardsHorizontais([
-                    const CartaoHorizontal(label: 'AGENDAMENTO', imgPath: 'assets/images/card_agendamento.png'),
-                    const CartaoHorizontal(label: 'WEARBLE',     imgPath: 'assets/images/card_wearble.png'),
+                  conteudo: _buildCardsHorizontais(const [
+                    CartaoHorizontal(label: 'AGENDAMENTO', imgPath: 'assets/images/card_agendamento.png'),
+                    CartaoHorizontal(label: 'WEARBLE', imgPath: 'assets/images/card_wearble.png'),
+                    CartaoHorizontal(label: 'EMERGÊNCIA', imgPath: 'assets/images/card_emergencia.png'),
                   ]),
                 ),
                 const SizedBox(height: 40),
@@ -91,30 +94,29 @@ class TelaInicial extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           BotaoNavegacaoHome(
-            icon: Icons.assignment,
+            icon: Icons.home_outlined,
+            onTap: () {},
+          ),
+          BotaoNavegacaoHome(
+            icon: Icons.search,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const TelaBuscar()),
+            ),
+          ),
+          BotaoNavegacaoHome(
+            icon: Icons.calendar_month,
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const TelaAgendaMedica()),
             ),
           ),
           BotaoNavegacaoHome(
-            icon: Icons.search,
-            onTap: () => Navigator.push(
-              context,
-              // CORREÇÃO: "TelaBuscar" com 'T' maiúsculo
-              MaterialPageRoute(builder: (_) => const TelaBuscar()), 
-            ),
-          ),
-          BotaoNavegacaoHome(
-            icon: Icons.medication_outlined,
+            icon: Icons.medication,
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const GerenciarMedicamentosPage()),
             ),
-          ),
-          BotaoNavegacaoHome(
-            icon: Icons.add_box_outlined,
-            onTap: () {},
           ),
         ],
       ),
@@ -169,13 +171,23 @@ class TelaInicial extends StatelessWidget {
   }
 
   Widget _buildCardsHorizontais(List<Widget> cards) {
-    return SizedBox(
-      height: 140,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.only(left: 20, right: 6),
-        children: cards,
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 140.0,
+        autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 4),
+        autoPlayAnimationDuration: const Duration(milliseconds: 1500),
+        autoPlayCurve: Curves.easeInOutCubic,
+        enableInfiniteScroll: true,
+        viewportFraction: 0.48,
+        padEnds: false,
       ),
+      items: cards.map((card) {
+        return Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: card,
+        );
+      }).toList(),
     );
   }
 }
