@@ -29,6 +29,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
   final _obsCtrl = TextEditingController();
   CategoriaRemedio _categoriaForm = CategoriaRemedio.nenhuma;
 
+
+  //lista template de remedios
   final List<Remedio> _remedios = [
     Remedio(
       nome: "CARDALI",
@@ -62,6 +64,7 @@ class _TelaBuscarState extends State<TelaBuscar> {
     super.dispose();
   }
 
+  //lista de remedios filtrados utilizando o where
   List<Remedio> get _remediosFiltrados {
     List<Remedio> base = _abaFavoritos
         ? _remedios.where((r) => _favoritos.contains(r.nome)).toList()
@@ -81,6 +84,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
     return base;
   }
 
+
+  //toggles
   void _toggleFavorito(String nome) => setState(() => _favoritos.contains(nome)
       ? _favoritos.remove(nome)
       : _favoritos.add(nome));
@@ -99,6 +104,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
     });
   }
 
+
+  //container de confirmação de exclusão
   void _confirmarExclusao(String nome) {
     showDialog(
       context: context,
@@ -138,6 +145,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
+
+  //container de popup de notificação
   void _abrirPopUpNotificacoes() {
     final comNotificacao =
         _remedios.where((r) => _notificacoes.contains(r.nome)).toList();
@@ -261,6 +270,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
+
+  //funcionalidade de abrir dialogo
   void _abrirDialogAdicionar() {
     _nomeCtrl.clear();
     _horarioCtrl.clear();
@@ -388,6 +399,8 @@ class _TelaBuscarState extends State<TelaBuscar> {
     );
   }
 
+
+  //função para adicionar remedio na lista
   void _salvarRemedio() {
     if (_formKey.currentState!.validate()) {
       setState(() {
