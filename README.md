@@ -7,7 +7,7 @@ Aplicativo móvel de monitoramento médico desenvolvido em Flutter.
 | Desenvolvedor | Responsabilidade |
 | --- | --- |
 | **Lucas Gravatá Portilho** | Telas e funcionalidades de Gerenciamento de Medicamentos |
-| **Carlos Eduardo Lima Santos** | Telas e funcionalidades de Agenda Médica e Tela Inicial |
+| **Carlos Eduardo Lima Santos** |Integração Firebase em Main, auth_service, agenda_service, tela_inicial, tela_agenda_medica|
 | **Enzo Gabriel de Araújo Soares** |Tela de cadastro e confirmar cadastro
 | **Lucca Derlan Barreto Costa** | Tela de Login.
 | **Davi Gabriel dos Santos Mota** | Tela buscar.
