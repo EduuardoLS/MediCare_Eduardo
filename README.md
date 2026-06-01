@@ -9,7 +9,7 @@ Aplicativo móvel de monitoramento médico desenvolvido em Flutter.
 | **Lucas Gravatá Portilho** | Telas e funcionalidades de Gerenciamento de Medicamentos |
 | **Carlos Eduardo Lima Santos** | Telas e funcionalidades de Agenda Médica e Tela Inicial |
 | **Enzo Gabriel de Araújo Soares** |Tela de cadastro e confirmar cadastro
-| **Lucca Derlan Barreto Costa** | Tela de Login.
+| **Lucca Derlan Barreto Costa** | Tela de Login | Banco de dados da tela | Criar o service e modificar funções.
 | **Davi Gabriel dos Santos Mota** | Tela buscar.
 
 
